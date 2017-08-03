@@ -1,0 +1,23 @@
+[user]
+  name = matscube
+  email = matscube@gmail.com
+[color]
+  ui = auto
+[core]
+  editor = vim -c \"fenc=utf-8\"
+  whitespace = cr-at-eol
+  # excludesfile = ~/.gitignore_global
+  filemode = false
+[alias]
+  co = checkout
+  br = branch
+  st = status
+  cm = commit
+  sb = show-branch
+  di = diff
+[pager]
+  log = diff-highlight | less
+  show = diff-highlight | less
+  diff = diff-highlight | less
+[diff]
+  compactionHeuristic = true
