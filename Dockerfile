@@ -58,12 +58,41 @@ RUN apt-get install -y iputils-ping net-tools
 RUN apt-get install -y iproute2 traceroute
 RUN apt-get install -y httperf
 
+# Webserver
+# ---------------------------------------------------------------
+RUN apt-get install -y apache2
+
 # PHP
 # ---------------------------------------------------------------
-RUN wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
-RUN apt-get install -y apache2
-RUN apt-get install -y php7.0
-RUN apt-get install -y libapache2-mod-php7.0
+ENV PHP_VERSION 7.1
+RUN add-apt-repository -y ppa:ondrej/php
+RUN apt-get update -y
+RUN apt-get install -y php${PHP_VERSION}
+RUN apt-get install -y php${PHP_VERSION}-mbstring
+RUN apt-get install -y php${PHP_VERSION}-xml
+RUN apt-get install -y php${PHP_VERSION}-zip
+RUN apt-get install -y php${PHP_VERSION}-pgsql
+RUN apt-get install -y libapache2-mod-php${PHP_VERSION}
 
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+RUN php composer-setup.php
+RUN php -r "unlink('composer-setup.php');"
+RUN mv composer.phar /usr/local/bin/composer
+RUN echo 'PATH=$PATH:~/.composer/vendor/bin' >> /root/.bashrc
+
+#RUN wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+#RUN apt-get install -y php7.0
 # RUN echo 'set nocompatible' >> '/root/.vimrc'
 # RUN echo 'set backspace=indent,eol,start' >> '/root/.vimrc'
+
+
+# DB
+# ---------------------------------------------------------------
+RUN apt-get install -y postgresql
+
+# Node
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
+RUN apt-get install -y build-essential

@@ -1,5 +1,5 @@
-NAME := webdev
-VERSION := 1.0
+NAME := dev-container
+VERSION := 1.1
 VERSION_TAG := $(NAME):$(VERSION)
 LATEST_TAG := $(NAME):latest
 
