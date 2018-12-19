@@ -7,3 +7,8 @@ LATEST_TAG := $(NAME):latest
 build:
 	docker build -t $(VERSION_TAG) .
 	docker build -t $(LATEST_TAG) .
+
+nocache:
+	docker build -t $(VERSION_TAG) . --no-cache=true
+	docker build -t $(LATEST_TAG) . --no-cache=true
+	
